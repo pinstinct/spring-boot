@@ -1,5 +1,6 @@
 package com.example.demo1.controller;
 
+import com.example.demo1.pojo.Greeting;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +16,21 @@ public class GreetingController {
     @Value("${greeting-coffee: ${greeting-name}} is drinking cafe gandor")
     private String coffee;
 
+    // 속성을 관리하는 greeting 빈에 대한 멤버 변수 생성
+    private final Greeting greeting;
+
+    // 생성자 주입을 거쳐 GreetingController에 greeting 빈을 주입
+    public GreetingController(Greeting greeting) {
+        this.greeting = greeting;
+    }
+
     @GetMapping
     String getGreeting() {
-        return name;
+        return greeting.getName();
     }
 
     @GetMapping("/coffee")
     String getNameAndCoffee() {
-        return coffee;
+        return greeting.getCoffee();
     }
 }
